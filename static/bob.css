@@ -1,0 +1,194 @@
+/* bob.css — "Meet Bob" intro.
+   Tokens mirror the homeserver design system so the game does not look
+   bolted on, but are defined locally so the module stays standalone. */
+
+:root {
+  --bob-bg:      #0a0a0c;
+  --bob-surface: rgba(21, 21, 26, 0.62);
+  --bob-border:  rgba(255, 255, 255, 0.10);
+  --bob-text:    #e4e4e7;
+  --bob-muted:   #a1a1aa;
+  --bob-dim:     #71717a;
+  --bob-accent:  #818cf8;
+  --bob-accent2: #22d3ee;
+  --bob-green:   #34d399;
+  --bob-yellow:  #fbbf24;
+  --bob-radius:  16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bob-bg);
+  color: var(--bob-text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+a { color: var(--bob-accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.bob-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--bob-border);
+}
+.bob-brand { font-weight: 700; letter-spacing: -0.01em; }
+.bob-badge {
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bob-yellow);
+  border: 1px solid rgba(251, 191, 36, 0.45);
+  background: rgba(251, 191, 36, 0.10);
+  padding: 0.2rem 0.5rem; border-radius: 999px;
+  margin-left: 0.5rem; white-space: nowrap;
+}
+.bob-version { font-size: 0.72rem; color: var(--bob-dim); font-family: ui-monospace, monospace; }
+
+.bob-wrap {
+  max-width: 1000px; margin: 0 auto; padding: 1.25rem;
+  display: grid; gap: 1.25rem;
+}
+
+/* ── Stage ─────────────────────────────────────────────────────────────── */
+.bob-stage {
+  position: relative;
+  background: var(--bob-surface);
+  border: 1px solid var(--bob-border);
+  border-radius: var(--bob-radius);
+  overflow: hidden;
+}
+#bob-canvas {
+  display: block; width: 100%; height: 340px;
+  cursor: grab; touch-action: none;   /* we handle drags ourselves */
+}
+#bob-canvas:active { cursor: grabbing; }
+#bob-canvas:focus-visible { outline: 2px solid var(--bob-accent); outline-offset: -2px; }
+
+.readouts {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  padding: 0.7rem 0.9rem;
+  border-top: 1px solid var(--bob-border);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85rem;
+}
+.readout {
+  display: flex; align-items: baseline; gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--bob-border);
+  border-radius: 8px; padding: 0.3rem 0.6rem;
+}
+.readout .k { color: var(--bob-dim); font-size: 0.75rem; }
+.readout .val { color: var(--bob-text); font-variant-numeric: tabular-nums; min-width: 3.6em; text-align: right; }
+.readout .u { color: var(--bob-dim); font-size: 0.75rem; }
+
+/* ── Narration ─────────────────────────────────────────────────────────── */
+.bob-panel {
+  background: var(--bob-surface);
+  border: 1px solid var(--bob-border);
+  border-radius: var(--bob-radius);
+  padding: 1.1rem 1.2rem;
+}
+.act-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; margin-bottom: 0.4rem;
+}
+#act-title { font-size: 1.15rem; line-height: 1.3; }
+#act-progress {
+  font-family: ui-monospace, monospace; font-size: 0.72rem;
+  color: var(--bob-dim); white-space: nowrap;
+}
+#act-body { color: var(--bob-muted); }
+#act-body code, .result code {
+  font-family: ui-monospace, monospace; font-size: 0.9em;
+  background: rgba(129, 140, 248, 0.14);
+  border: 1px solid rgba(129, 140, 248, 0.28);
+  border-radius: 6px; padding: 0.05em 0.35em;
+  color: #c7d2fe;
+}
+.act-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap; margin-top: 0.9rem;
+}
+#act-hint {
+  font-size: 0.82rem; color: var(--bob-accent2);
+  display: inline-flex; align-items: center; gap: 0.4rem;
+}
+#act-hint::before { content: '▸'; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 0.4rem; min-height: 44px; padding: 0.5rem 1.05rem;
+  border-radius: 10px; border: 1px solid var(--bob-border);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--bob-text); font-size: 0.88rem; font-weight: 600;
+  cursor: pointer; transition: border-color .15s, background .15s, color .15s;
+}
+.btn:hover { border-color: var(--bob-accent); color: #c7d2fe; }
+.btn:focus-visible { outline: 2px solid var(--bob-accent); outline-offset: 2px; }
+.btn-primary {
+  border-color: rgba(129, 140, 248, 0.5);
+  background: rgba(129, 140, 248, 0.16);
+  color: #c7d2fe;
+}
+
+/* ── Challenge ─────────────────────────────────────────────────────────── */
+.challenge { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--bob-border); }
+.challenge-row {
+  display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap;
+}
+.challenge-row label { font-size: 0.82rem; color: var(--bob-muted); }
+#v-input { flex: 1 1 190px; min-width: 160px; accent-color: var(--bob-accent); height: 28px; }
+#v-value {
+  font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums;
+  min-width: 4.2em; text-align: right; color: var(--bob-accent2);
+}
+
+.result {
+  margin-top: 0.9rem; padding: 0.8rem 0.95rem;
+  border-radius: 10px; border: 1px solid var(--bob-border);
+  display: grid; gap: 0.3rem; font-size: 0.88rem;
+}
+.result strong { font-size: 0.95rem; }
+.result span { color: var(--bob-muted); }
+.result.ok   { border-color: rgba(52, 211, 153, 0.45); background: rgba(52, 211, 153, 0.10); }
+.result.ok strong { color: var(--bob-green); }
+.result.miss { border-color: rgba(251, 191, 36, 0.45); background: rgba(251, 191, 36, 0.10); }
+.result.miss strong { color: var(--bob-yellow); }
+.result .next-up { color: var(--bob-dim); font-style: italic; margin-top: 0.2rem; }
+
+/* ── Coming soon ───────────────────────────────────────────────────────── */
+.coming-soon {
+  text-align: center; padding: 1.4rem 1.2rem;
+  border: 1px dashed rgba(251, 191, 36, 0.35);
+  border-radius: var(--bob-radius);
+  background: rgba(251, 191, 36, 0.05);
+}
+.coming-soon h2 { font-size: 1rem; margin-bottom: 0.35rem; color: var(--bob-yellow); }
+.coming-soon p { color: var(--bob-muted); font-size: 0.88rem; max-width: 46rem; margin: 0 auto; }
+.roadmap {
+  display: flex; flex-wrap: wrap; gap: 0.45rem; justify-content: center;
+  margin-top: 0.9rem; font-size: 0.72rem;
+}
+.roadmap span {
+  border: 1px solid var(--bob-border); border-radius: 999px;
+  padding: 0.25rem 0.65rem; color: var(--bob-dim);
+  font-family: ui-monospace, monospace;
+}
+.roadmap span.done { color: var(--bob-green); border-color: rgba(52, 211, 153, 0.4); }
+
+.bob-footer {
+  text-align: center; padding: 1.5rem 1rem 2.5rem;
+  color: var(--bob-dim); font-size: 0.78rem;
+}
+
+@media (max-width: 640px) {
+  #bob-canvas { height: 260px; }
+  #act-title { font-size: 1.05rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0.01ms !important; }
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bob · Physics Game</title>
+  <meta name="description" content="An interactive introduction to motion — starting with a single point.">
+  <link rel="stylesheet" href="/game/bob/static/bob.css">
+</head>
+<body>
+
+<header class="bob-topbar">
+  <div>
+    <a href="/game">← Arcade</a>
+    <span class="bob-brand" style="margin-left:.8rem">Bob</span>
+    <span class="bob-badge">Early preview</span>
+  </div>
+  <span class="bob-version">v{{VERSION}}</span>
+</header>
+
+<main class="bob-wrap">
+
+  <section class="bob-stage">
+    <canvas id="bob-canvas" aria-label="Bob moves along a one-dimensional number line. Use the left and right arrow keys to push him, space to stop him."></canvas>
+    <div class="readouts">
+      <span class="readout"><span class="k">x</span><span class="val" id="readout-x">0.00</span><span class="u">m</span></span>
+      <span class="readout"><span class="k">v</span><span class="val" id="readout-v">0.00</span><span class="u">m/s</span></span>
+      <span class="readout"><span class="k">t</span><span class="val" id="readout-t">0.0</span><span class="u">s</span></span>
+    </div>
+  </section>
+
+  <section class="bob-panel">
+    <div class="act-head">
+      <h1 id="act-title">This is Bob.</h1>
+      <span id="act-progress">1 / 5</span>
+    </div>
+    <p id="act-body"></p>
+
+    <div class="act-foot">
+      <span id="act-hint"></span>
+      <button type="button" class="btn" id="act-next">Continue →</button>
+    </div>
+
+    <div class="challenge" id="act-challenge" hidden>
+      <div class="challenge-row">
+        <label for="v-input">Velocity</label>
+        <input type="range" id="v-input" min="0" max="6" step="0.05" value="1.50">
+        <span id="v-value">1.50</span><span style="color:var(--bob-dim);font-size:.8rem">m/s</span>
+        <button type="button" class="btn btn-primary" id="btn-launch">Launch</button>
+        <button type="button" class="btn" id="btn-reset">Reset</button>
+      </div>
+      <div class="result" id="act-result" hidden></div>
+    </div>
+  </section>
+
+  <section class="coming-soon">
+    <h2>Bob's world is still being built</h2>
+    <p>
+      Everything above is real physics, just deliberately stripped bare: one dimension,
+      no friction, and a point with no mass to speak of. Once that feels obvious,
+      the rest can be added one idea at a time — and each new thing you switch on
+      changes the shape of that graph.
+    </p>
+    <div class="roadmap">
+      <span class="done">✓ position</span>
+      <span class="done">✓ velocity</span>
+      <span>acceleration</span>
+      <span>mass &amp; force</span>
+      <span>friction</span>
+      <span>energy</span>
+      <span>2D motion</span>
+      <span>collisions</span>
+    </div>
+  </section>
+
+</main>
+
+<footer class="bob-footer">
+  Part of the arcade · <a href="/game">back to the games</a>
+</footer>
+
+<script src="/game/bob/static/bob.js"></script>
+</body>
+</html>
