@@ -79,16 +79,34 @@ async def bob_static(filename: str):
     )
 
 
-@router.get("/bob/api/health")
-async def bob_health():
-    """Reports whether the module's own assets are present."""
-    missing = [
+def health() -> dict:
+    """Hook read by the gateway's arcade hub.
+
+    Reports ``coming-soon`` rather than ``ok`` so the hub can label the
+    card honestly: the intro is playable, but the game is not finished.
+    """
+    missing = _missing_assets()
+    return {
+        "ok": not missing,
+        "status": "coming-soon" if not missing else "error",
+        "detail": None if not missing else f"missing assets: {', '.join(missing)}",
+    }
+
+
+def _missing_assets() -> list[str]:
+    return [
         str(p.relative_to(_MODULE_DIR))
         for p in (_TEMPLATES_DIR / "bob.html",
                   _STATIC_DIR / "bob.css",
                   _STATIC_DIR / "bob.js")
         if not p.is_file()
     ]
+
+
+@router.get("/bob/api/health")
+async def bob_health():
+    """Reports whether the module's own assets are present."""
+    missing = _missing_assets()
     return {
         "ok": not missing,
         "version": _version(),
